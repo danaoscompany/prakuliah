@@ -1,5 +1,5 @@
-const HOST = "localhost/prakuliah";
-//const PHP_PATH = "http://iptvjoss.com/prakuliah/php/";
+//const HOST = "localhost/prakuliah";
+const HOST = "139.99.22.150/prakuliah";
 const PHP_PATH = "http://"+HOST+"/php/";
 
 function show(msg) {
