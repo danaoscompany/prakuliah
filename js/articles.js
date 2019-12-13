@@ -4,6 +4,7 @@ var selectedPictureData = null;
 var pictureChanged = false;
 
 $(document).ready(function() {
+    $("#menu").load('menu.html', function() {});
     //$("#date").datepicker();
     $("#categories").prop("selectedIndex", 0);
     $("#writer").on("change paste keyup", function() {

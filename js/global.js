@@ -72,32 +72,36 @@ function logout() {
     $("#confirm-container").css("display", "flex");
 }
 
-function openCommon() {
-    window.location.href = "common.html";
+function openAdmins() {
+    window.location.href = "admins.html";
 }
 
 function openUsers() {
     window.location.href = "users.html";
 }
 
-function openAdmins() {
-    window.location.href = "admins.html";
+function openPartners() {
+    window.location.href = "partners.html";
+}
+
+function openEmployers() {
+    window.location.href = "employers.html";
+}
+
+function openApplications() {
+    window.location.href = "applications.html";
+}
+
+function openFinances() {
+    window.location.href = "finances.html";
 }
 
 function openArticles() {
     window.location.href = "articles.html";
 }
 
-function openPurchases() {
-    window.location.href = "purchases.html";
-}
-
-function openChannels() {
-    window.location.href = "channels.html";
-}
-
-function openNotifications() {
-    window.location.href = "notifications.html";
+function openCVs() {
+    window.location.href = "cvs.html";
 }
 
 function generateRandomID(length) {
@@ -123,4 +127,24 @@ function constructFormData(...values) {
         fd.append(values[i], values[i+1]);
     }
     return fd;
+}
+
+Date.prototype.customFormat = function(formatString){
+    var YYYY,YY,MMMM,MMM,MM,M,DDDD,DDD,DD,D,hhhh,hhh,hh,h,mm,m,ss,s,ampm,AMPM,dMod,th;
+    YY = ((YYYY=this.getFullYear())+"").slice(-2);
+    MM = (M=this.getMonth()+1)<10?('0'+M):M;
+    MMM = (MMMM=["January","February","March","April","May","June","July","August","September","October","November","December"][M-1]).substring(0,3);
+    DD = (D=this.getDate())<10?('0'+D):D;
+    DDD = (DDDD=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][this.getDay()]).substring(0,3);
+    th=(D>=10&&D<=20)?'th':((dMod=D%10)==1)?'st':(dMod==2)?'nd':(dMod==3)?'rd':'th';
+    formatString = formatString.replace("#YYYY#",YYYY).replace("#YY#",YY).replace("#MMMM#",MMMM).replace("#MMM#",MMM).replace("#MM#",MM).replace("#M#",M).replace("#DDDD#",DDDD).replace("#DDD#",DDD).replace("#DD#",DD).replace("#D#",D).replace("#th#",th);
+    h=(hhh=this.getHours());
+    if (h==0) h=24;
+    if (h>12) h-=12;
+    hh = h<10?('0'+h):h;
+    hhhh = hhh<10?('0'+hhh):hhh;
+    AMPM=(ampm=hhh<12?'am':'pm').toUpperCase();
+    mm=(m=this.getMinutes())<10?('0'+m):m;
+    ss=(s=this.getSeconds())<10?('0'+s):s;
+    return formatString.replace("#hhhh#",hhhh).replace("#hhh#",hhh).replace("#hh#",hh).replace("#h#",h).replace("#mm#",mm).replace("#m#",m).replace("#ss#",ss).replace("#s#",s).replace("#ampm#",ampm).replace("#AMPM#",AMPM);
 }

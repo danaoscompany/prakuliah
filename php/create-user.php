@@ -1,29 +1,32 @@
 <?php
 include 'db.php';
-$userId = $_POST["user_id"];
-$name = $_POST["name"];
-$username = $_POST["username"];
+include 'common.php';
+$firstName = $_POST["first_name"];
+$lastName = $_POST["last_name"];
 $phone = $_POST["phone"];
 $email = $_POST["email"];
 $password = $_POST["password"];
-$vipPassword = $_POST["vip_password"];
-$maxConnections = intval($_POST["maximum_connections"]);
-$activeConnections = intval($_POST["active_connections"]);
-$confirmed = intval($_POST["confirmed"]);
-$city = $_POST["city"];
-$endDate = intval($_POST["end_date"]);
-$trial = intval($_POST["trial"]);
+$nim = $_POST["nim"];
+$va = $_POST["va"];
 $profilePictureSet = intval($_POST["profile_picture_set"]);
 $profilePictureURL = $_POST["profile_picture_url"];
-$results = $c->query("SELECT * FROM users WHERE username='" . $username . "'");
-if ($results && $results->num_rows > 0) {
-    echo -1;
-    return;
-}
 $results = $c->query("SELECT * FROM users WHERE email='" . $email . "'");
 if ($results && $results->num_rows > 0) {
     echo -2;
     return;
 }
-$c->query("INSERT INTO users (id, phone, email, password, vip_password, confirmed, name, profile_picture_url, active_connections, username, city, end_date, is_trial, maximum_connections, made_in) VALUES ('" . $userId . "', '" . $phone . "', '" . $email . "', '" . $password . "', '" . $vipPassword . "', " . $confirmed . ", '" . $name . "', '" . $profilePictureURL . "', " . $activeConnections . ", '" . $username . "', '" . $city . "', " . $endDate . ", " . $trial . ", " . $maxConnections . ", " . round(microtime(true)*1000) . ")");
+$results = $c->query("SELECT * FROM users WHERE phone='" . $phone . "'");
+if ($results && $results->num_rows > 0) {
+    echo -3;
+    return;
+}
+$results = $c->query("SELECT * FROM users WHERE nim='" . $nim . "'");
+if ($results && $results->num_rows > 0) {
+    echo -4;
+    return;
+}
+$sql = "INSERT INTO users (email, password, first_name, last_name, phone, profile_picture, creation_date, last_ip, last_access, nim, va_number)"
+    . "VALUES ('" . $email . "', '" . $password . "', '" . $firstName . "', '" . $lastName . "', '" . $phone . "', '" . $profilePictureURL . "', "
+    . "'" . date('Y:m:d H:i:s') . "', '" . getIP() . "', '" . date('Y:m:d H:i:s') . "', '" . $nim . "', '" . $va . "')";
+$c->query($sql);
 echo 0;

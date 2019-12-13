@@ -1,19 +1,19 @@
 <?php
 include 'db.php';
-$userId = $_POST["id"];
-$name = $_POST["name"];
-$username = $_POST["username"];
+$userId = intval($_POST["id"]);
+$firstName = $_POST["first_name"];
+$lastName = $_POST["last_name"];
+$email = $_POST["email"];
 $phone = $_POST["phone"];
 $password = $_POST["password"];
-$vipPassword = $_POST["vip_password"];
-$activeConnections = intval($_POST["active_connections"]);
-$maxConnections = intval($_POST["maximum_connections"]);
-$confirmed = intval($_POST["confirmed"]);
-$city = $_POST["city"];
-$endDate = intval($_POST["end_date"]);
-$trial = intval($_POST["trial"]);
+$nim = $_POST["nim"];
+$va = $_POST["va"];
 $profilePictureSet = intval($_POST["profile_picture_set"]);
 $profilePictureURL = $_POST["profile_picture_url"];
-//$c->query("UPDATE users SET phone='" . $phone . "', password='" . $password . "', confirmed=" . $confirmed . ", name='" . $name . "', username='" . $username . "', profile_picture_url='" . $profilePictureURL . "', city='" . $city . "', end_date=" . $endDate . ", is_trial=" . $trial . ", active_connections=" . $activeConnections . ", maximum_connections=" . $maxConnections . " WHERE id='" . $userId . "'");
-$c->query("UPDATE users SET phone='" . $phone . "', password='" . $password . "', vip_password='" . $vipPassword . "', confirmed=" . $confirmed . ", name='" . $name . "', username='" . $username . "', profile_picture_url='" . $profilePictureURL . "', city='" . $city . "', end_date=" . $endDate . ", is_trial=" . $trial . ", active_connections=" . $activeConnections . ", maximum_connections=" . $maxConnections . " WHERE id='" . $userId . "'");
+$sql = "UPDATE users SET first_name='" . $firstName . "', last_name='" . $lastName . "', phone='" . $phone . "', password='" . $password . "', nim='" . $nim . "', va_number='" . $va . "', email='" . $email . "'";
+if ($profilePictureSet) {
+    $sql .= ", profile_picture='" . $profilePictureURL . "'";
+}
+$sql .= " WHERE id=" . $userId;
+$c->query($sql);
 echo 0;

@@ -6,6 +6,7 @@ var monthNames = [
 ];
 
 $(document).ready(function () {
+    $("#menu").load('menu.html', function() {});
     getNotifications();
     const messaging = firebase.messaging();
     messaging.usePublicVapidKey("BMATEC9vSMYogedkzELmghC6cFNSLT3mY7o62m5UllHdB0rkd1S-wpoBNKcpZv20edaVgavEEz7iYLaJyOVSUxI");

@@ -25,7 +25,8 @@ function login() {
             var response = parseInt(a);
             hideProgress();
             if (response == 0) {
-                window.location.href = "common.html";
+                localStorage.setItem("user_id", response);
+                window.location.href = "users.html";
             } else if (response == -1) {
                 show("Admin tidak terdaftar");
             } else if (response == -2) {

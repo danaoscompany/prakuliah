@@ -3,12 +3,12 @@
 <head>
     <script src="js/jquery.js"></script>
     <script src="js/global.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+    <!--<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-database.js"></script>-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>
+    <!--<script>
         // Initialize Firebase
         var config = {
             apiKey: "AIzaSyDmnhNevOodxFbcMbyJlH5oZnw9o0gverM",
@@ -19,10 +19,10 @@
             messagingSenderId: "493889590994"
         };
         firebase.initializeApp(config);
-    </script>
-    <script src="js/users.js"></script>
+    </script>-->
+    <script src="js/partners.js"></script>
     <link href="css/global.css" rel="stylesheet">
-    <link href="css/users.css" rel="stylesheet">
+    <link href="css/partners.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.6/css/mdb.min.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.6/js/mdb.min.js"></script>
@@ -40,8 +40,8 @@
                 <input id="keyword" style="background-color: transparent; border: 0; padding-left: 5px; padding-right: 5px; position: absolute; top: 0; left: 0; width: calc(100% - 10px); height: 100%;">
                 <button style="position: absolute; top: 2px; right: 2px; bottom: 2px; height: 28px;" onclick="search()" class="button6">Cari</button>
             </div>
-            <button onclick="addUser()" class="button6">Tambah Prakuliah</button>
-            <button onclick="deleteUsers()" id="delete" style="display: none; width: 100px; margin-left: 10px;">Hapus</button>
+            <button onclick="addPartner()" class="button6">Tambah Prakuliah</button>
+            <button onclick="deletePartners()" id="delete" style="display: none; width: 100px; margin-left: 10px;">Hapus</button>
         </div>
         <table class="flat-table" style="width: 1000px; margin-left: 20px; margin-top: 10px;">
             <thead>
@@ -53,47 +53,51 @@
                 <th style='font-size: 15px;'>Nama</th>
                 <th style='font-size: 15px;'>Email</th>
                 <th style='font-size: 15px;'>No. Telp</th>
-                <th style='font-size: 15px;'>NIM</th>
+                <th style='font-size: 15px;'>Lokasi</th>
                 <th style='font-size: 15px;'>Ubah</th>
                 <th style='font-size: 15px;'>Hapus</th>
             </tr>
             </thead>
-            <tbody id="users">
+            <tbody id="partners">
             </tbody>
         </table>
         <div>&nbsp;</div>
     </div>
 </div>
-<div id="edit-user-container"
+<div id="container"
      style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, .5); overflow-y: scroll;">
     <div style="width: 500px; height: calc(100% - 100px); border-radius: 5px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .7); background-color: white; display: flex; flex-flow: column nowrap; overflow-y: scroll;">
         <div style="width: 100%; padding-top: 10px; padding-bottom: 10px; color: #333333; font-family: PalanquinBold;">
-            <div id="edit-user-title" style="margin-left: 20px; margin-right: 20px;">Edit Prakuliah</div>
+            <div id="title" style="margin-left: 20px; margin-right: 20px;">Edit Prakuliah</div>
         </div>
         <div style="width: 100%; height: 1px; background-color: rgba(0, 0, 0, .1);"></div>
         <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Nama depan:</div>
-        <input class="input2" id="edit-user-first-name" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <input class="input2" id="first-name" type="text" style="margin-left: 20px; margin-right: 20px;">
         <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Nama belakang:</div>
-        <input class="input2" id="edit-user-last-name" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <input class="input2" id="last-name" type="text" style="margin-left: 20px; margin-right: 20px;">
         <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">No. HP:</div>
-        <input class="input2" id="edit-user-phone" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <input class="input2" id="phone" type="text" style="margin-left: 20px; margin-right: 20px;">
         <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Email:</div>
-        <input class="input2" id="edit-user-email" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <input class="input2" id="email" type="text" style="margin-left: 20px; margin-right: 20px;">
         <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Kata sandi:
         </div>
-        <input class="input2" id="edit-user-password" type="password" style="margin-left: 20px; margin-right: 20px;">
-        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">NIM:</div>
-        <input class="input2" id="edit-user-nim" type="text" style="margin-left: 20px; margin-right: 20px;">
-        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Nomor virtual account:</div>
-        <input class="input2" id="edit-user-va" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <input class="input2" id="password" type="password" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Lokasi:</div>
+        <input class="input2" id="location" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Alamat:</div>
+        <input class="input2" id="address" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Tentang:</div>
+        <input class="input2" id="about" type="text" style="margin-left: 20px; margin-right: 20px;">
+        <div style="color: #333333; font-family: PalanquinBold; margin-left: 20px; margin-right: 20px;">Nomor WhatsApp:</div>
+        <input class="input2" id="whatsapp-number" type="text" style="margin-left: 20px; margin-right: 20px;">
         <div style="width: 100%; display: flex; align-items: center; flex-flow: column nowrap; margin-top: 10px;">
-            <img id="edit-user-profile-picture" width="150px" height="150px" src="img/profile-picture.jpg">
+            <img id="profile-picture" width="150px" height="150px" src="img/profile-picture.jpg">
             <button onclick="selectProfilePicture()" class="button6" style="margin-top: 10px;">Ubah Foto Profil</button>
-            <input id="edit-user-select-profile-picture" style="width: 0; height: 0;" type="file" accept="image/*">
+            <input id="select-profile-picture" style="width: 0; height: 0;" type="file" accept="image/*">
         </div>
         <div style="width: calc(100% - 15px); display: flex; flex-flow: row nowrap; justify-content: flex-end; margin-top: 10px; margin-right: 15px;">
-            <button onclick="closeEditUserDialog()" class="button5">Batal</button>
-            <button id="edit-user-ok" class="button4" style="margin-left: 5px;">Tambah</button>
+            <button onclick="closeEditPartnerDialog()" class="button5">Batal</button>
+            <button id="ok" class="button4" style="margin-left: 5px;">Tambah</button>
         </div>
         <div>&nbsp;</div>
         </input>

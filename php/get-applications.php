@@ -23,7 +23,8 @@ if ($results && $results->num_rows > 0) {
 		$users = $c->query("SELECT * FROM users WHERE id=" . $row["user_id"]);
 		if ($users && $users->num_rows > 0) {
 			$user = $users->fetch_assoc();
-			$row["user_verified"] = $user["verified"];
+			//$row["user_verified"] = $user["verified"];
+			$row["employee_name"] = $user["first_name"] . " " . $user["last_name"];
 		}
 		array_push($applications, $row);
 	}

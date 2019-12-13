@@ -1,6 +1,7 @@
 var currentActiveConnections = 0;
 var currentMaximumConnections = 1;
 var currentProfilePicture = "";
+var currentProfilePictureFile = null;
 var admins;
 
 $(document).ready(function() {
@@ -8,6 +9,7 @@ $(document).ready(function() {
 });
 
 function getAdmins() {
+    $("#menu").load('menu.html', function() {});
     $("#admins").find("*").remove();
     showProgress("Memuat admin");
     $.ajax({
@@ -46,24 +48,20 @@ function setAdminClickListener() {
         var tr = $(this).parent().parent();
         var index = tr.parent().children().index(tr);
         var admin = admins[index];
-        $("#edit-admin-title").html("Ubah Admin");
-        $("#edit-admin-name").val(admin["name"]);
-        $("#edit-admin-phone").val(admin["phone"]);
-        $("#edit-admin-email").val(admin["email"]);
-        $("#edit-admin-password").val(admin["password"]);
-        if (admin["verified"] == 0) {
-            $("#accepted option")[0].selected = true;
-        } else {
-            $("#accepted option")[1].selected = true;
-        }
-        $("#edit-admin-container").css("display", "flex").hide().fadeIn(300);
-        $("#edit-admin-ok").html("Ubah").unbind().on("click", function() {
-            var name = $("#edit-admin-name").val().trim();
-            var phone = $("#edit-admin-phone").val().trim();
-            var email = $("#edit-admin-email").val().trim();
-            var password = $("#edit-admin-password").val().trim();
-            var accepted = $("#accepted option:selected").index();
-            if (name == "") {
+        $("#title").html("Ubah Admin");
+        $("#first-name").val(admin["first_name"]);
+        $("#last-name").val(admin["last_name"]);
+        $("#phone").val(admin["phone"]);
+        $("#email").val(admin["email"]);
+        $("#password").val(admin["password"]);
+        $("#container").css("display", "flex").hide().fadeIn(300);
+        $("#ok").html("Ubah").unbind().on("click", function() {
+            var firstName = $("#first-name").val().trim();
+            var lastName = $("#last-name").val().trim();
+            var phone = $("#phone").val().trim();
+            var email = $("#email").val().trim();
+            var password = $("#password").val().trim();
+            if (firstName == "" || lastName == "") {
                 show("Mohon masukkan nama");
                 return;
             }
@@ -79,14 +77,14 @@ function setAdminClickListener() {
                 show("Mohon masukkan jumlah koneksi aktif minimal 1");
                 return;
             }*/
-            showProgress("Menambah admin");
+            showProgress("Mengubah admin");
             var fd = new FormData();
             fd.append("id", admin["id"]);
-            fd.append("name", name);
-            fd.append("phone", phone);
-            fd.append("password", password);
+            fd.append("first_name", firstName);
+            fd.append("last_name", lastName);
             fd.append("email", email);
-            fd.append("verified", accepted);
+            fd.append("password", password);
+            fd.append("phone", phone);
             $.ajax({
                 type: 'POST',
                 url: PHP_PATH+'edit-admin.php',
@@ -99,7 +97,7 @@ function setAdminClickListener() {
                     var response = a;
                     console.log("Response: "+response);
                     if (response == 0) {
-                        $("#edit-admin-container").fadeOut(300);
+                        $("#container").fadeOut(300);
                         getAdmins();
                     } else if (response == -1) {
                         show("Nama admin sudah digunakan");
@@ -151,20 +149,19 @@ function addAdmin() {
     currentActiveConnections = 0;
     currentMaximumConnections = 1;
     currentProfilePicture = "img/profile-picture.jpg";
-    $("#edit-admin-title").html("Tambah Admin");
-    $("#edit-admin-name").val("");
-    $("#edit-admin-phone").val("");
-    $("#edit-admin-email").val("");
-    $("#edit-admin-password").val("");
-    $("#accepted option")[0].selected = true;
-    $("#edit-admin-container").css("display", "flex").hide().fadeIn(300);
-    $("#edit-admin-ok").html("Tambah").unbind().on("click", function() {
-        var name = $("#edit-admin-name").val().trim();
-        var phone = $("#edit-admin-phone").val().trim();
-        var email = $("#edit-admin-email").val().trim();
-        var password = $("#edit-admin-password").val().trim();
-        var accepted = $("#accepted option:selected").index();
-        if (name == "") {
+    $("#title").html("Tambah Admin");
+    $("#name").val("");
+    $("#phone").val("");
+    $("#email").val("");
+    $("#password").val("");
+    $("#container").css("display", "flex").hide().fadeIn(300);
+    $("#ok").html("Tambah").unbind().on("click", function() {
+        var firstName = $("#first-name").val().trim();
+        var lastName = $("#last-name").val().trim();
+        var phone = $("#phone").val().trim();
+        var email = $("#email").val().trim();
+        var password = $("#password").val().trim();
+        if (firstName == "" || lastName == "") {
             show("Mohon masukkan nama");
             return;
         }
@@ -178,40 +175,78 @@ function addAdmin() {
         }
         showProgress("Membuat admin");
         var fd = new FormData();
-        fd.append("name", name);
+        fd.append("first_name", firstName);
+        fd.append("last_name", lastName);
         fd.append("phone", phone);
         fd.append("password", password);
         fd.append("email", email);
-        fd.append("verified", accepted);
-        fd.append("register_date", new Date().getTime());
-        $.ajax({
-            type: 'POST',
-            url: PHP_PATH+'create-admin.php',
-            data: fd,
-            processData: false,
-            contentType: false,
-            cache: false,
-            success: function(a) {
-                hideProgress();
-                var response = a;
-                console.log("Response: "+response);
-                if (response == 0) {
-                    $("#edit-admin-container").fadeOut(300);
-                    getAdmins();
-                } else if (response == -1) {
-                    show("Nama admin sudah digunakan");
-                } else if (response == -2) {
-                    show("Nomor HP sudah digunakan");
-                } else if (response == -3) {
-                    show("Email sudah digunakan");
-                } else {
-                    show("Kesalahan: "+response);
+        fd.append("profile_picture", "");
+        if (profilePictureSet) {
+            let fd2 = new FormData();
+            let fileName = generateRandomID(14);
+            fd2.append("file", currentProfilePictureFile);
+            fd2.append("file_name", fileName);
+            console.log("Uploading image...");
+            $.ajax({
+                type: 'POST',
+                url: PHP_PATH + 'upload-image.php',
+                data: fd2,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (a) {
+                    console.log("Profile picture name: "+fileName);
+                    fd.append("profile_picture", fileName);
+                    createAdmin(fd);
                 }
-            }
-        });
+            });
+        } else {
+            createAdmin(fd);
+        }
     });
 }
 
+function createAdmin(fd) {
+    $.ajax({
+        type: 'POST',
+        url: PHP_PATH+'create-admin.php',
+        data: fd,
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function(a) {
+            hideProgress();
+            var response = a;
+            console.log("Response: "+response);
+            if (response == 0) {
+                $("#container").fadeOut(300);
+                getAdmins();
+            } else if (response == -1) {
+                show("Nama admin sudah digunakan");
+            } else if (response == -2) {
+                show("Nomor HP sudah digunakan");
+            } else if (response == -3) {
+                show("Email sudah digunakan");
+            } else {
+                show("Kesalahan: "+response);
+            }
+        }
+    });
+}
+
+function selectProfilePicture() {
+    $("#select-profile-picture").on("change", function () {
+        var fr = new FileReader();
+        fr.onload = function () {
+            $("#profile-picture").attr("src", fr.result);
+        };
+        currentProfilePictureFile = $(this).prop("files")[0];
+        fr.readAsDataURL(currentProfilePictureFile);
+        profilePictureSet = true;
+    });
+    $("#select-profile-picture").click();
+}
+
 function closeEditAdminDialog() {
-    $("#edit-admin-container").fadeOut(300);
+    $("#container").fadeOut(300);
 }

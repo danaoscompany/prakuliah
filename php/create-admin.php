@@ -1,9 +1,11 @@
 <?php
 include 'db.php';
+include 'common.php';
+$firstName = $_POST["first_name"];
+$lastName = $_POST["last_name"];
 $email = $_POST["email"];
 $password = $_POST["password"];
-$name = $_POST["name"];
 $phone = $_POST["phone"];
-$registerDate = intval($_POST["register_date"]);
-$accepted = intval($_POST["verified"]);
-$c->query("INSERT INTO admins (id, email, password, name, phone, register_date, accepted) VALUES ('" . uniqid(). "', '" . $email . "', '" . $password . "', '" . $name . "', '" . $phone . "', " . $registerDate . ", " . $accepted . ")");
+$profilePicture = $_POST["profile_picture"];
+$ip = getIP();
+$c->query("INSERT INTO admins (email, password, first_name, last_name, phone, profile_picture, creation_date, last_ip, last_access) VALUES ('" . $email . "', '" . $password . "', '" . $firstName . "', '" . $lastName . "', '" . $phone . "', '" . $profilePicture . "', '" . date('Y:m:d H:i:s') . "', '" . $ip . "', '" . date('Y:m:d H:i:s') . "')");

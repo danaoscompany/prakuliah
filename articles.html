@@ -36,35 +36,7 @@
 </head>
 <body>
 <div style="width: 100%; height: 100%; display: flex; flex-flow: row nowrap; position: fixed; left: 0; top: 0;">
-    <div style="width: 200px; background-color: #2e2f4d; display: flex; flex-flow: column nowrap; overflow-y: scroll;">
-        <div style="width: 100%; height: 100px; display: flex; justify-content: center; align-items: center;">
-            <img src="img/icon.png" width="60px" height="60px">
-        </div>
-        <div onclick="openCommon()" class="menu-item" style="margin-left: 10px; margin-top: 20px;">
-            <img src="img/settings.png" width="20px" height="20px">
-            <div style="margin-left: 10px;">Umum</div>
-        </div>
-        <div onclick="openUsers()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
-            <img src="img/user-2.png" width="20px" height="20px">
-            <div style="margin-left: 10px;">Prakuliah</div>
-        </div>
-        <div onclick="openAdmins()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
-            <img src="img/admin.png" width="20px" height="20px">
-            <div style="margin-left: 10px;">Admin</div>
-        </div>
-        <div onclick="openArticles()" class="menu-item-active" style="margin-left: 10px; margin-top: 5px;">
-            <img src="img/paper.png" width="20px" height="20px">
-            <div style="margin-left: 10px;">Artikel</div>
-        </div>
-        <div onclick="openNotifications()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
-            <img src="img/notification.png" width="20px" height="20px">
-            <div style="margin-left: 10px;">Notifikasi</div>
-        </div>
-        <div onclick="logout()" class="menu-item" style="margin-left: 10px; margin-top: 5px;">
-            <img src="img/logout.png" width="20px" height="20px">
-            <div style="margin-left: 10px;">Keluar</div>
-        </div>
-    </div>
+    <div id="menu"></div>
     <div style="width: calc(100% - 200px); display: flex; flex-flow: column nowrap; padding-top: 30px; overflow-y: scroll;">
         <div style="display: flex; flex-flow: row nowrap; margin-left: 20px; margin-top: 20px;">
             <img src="img/settings-2.png" width="50px" height="50px">
