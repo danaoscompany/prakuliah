@@ -19,16 +19,16 @@ function checkEmployers($c, $email) {
 	    $row = $results->fetch_assoc();
 	    echo 2;
 	} else {
-	    checkPartners($c, $email);
+        checkAdmins($c, $email);
 	}
 }
 
-function checkPartners($c, $email) {
-	$results = $c->query("SELECT * FROM partners WHERE email='" . $email . "'");
-	if ($results && $results->num_rows > 0) {
-	    $row = $results->fetch_assoc();
-	    echo 3;
-	} else {
-	    echo -1;
-	}
+function checkAdmins($c, $email) {
+    $results = $c->query("SELECT * FROM admins WHERE email='" . $email . "'");
+    if ($results && $results->num_rows > 0) {
+        $row = $results->fetch_assoc();
+        echo 3;
+    } else {
+        echo -1;
+    }
 }

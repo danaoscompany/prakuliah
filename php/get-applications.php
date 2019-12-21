@@ -9,6 +9,7 @@ if ($results && $results->num_rows > 0) {
 		if ($employers && $employers->num_rows > 0) {
 			$employer = $employers->fetch_assoc();
 			$row["employer_name"] = $employer["full_name"];
+			$row["employer_verified"] = $employer["verified"];
 		}
 		$jobImages = $c->query("SELECT * FROM job_images WHERE job_id=" . $row["job_id"]);
 		if ($jobImages && $jobImages->num_rows > 0) {

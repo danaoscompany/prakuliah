@@ -1,10 +1,16 @@
 <?php
 include 'db.php';
-$categoryID = intval($_POST["category_id"]);
 $start = intval($_POST["start"]);
 $length = intval($_POST["length"]);
-$cityID = intval($_POST["city_id"]);
-$results = $c->query("SELECT * FROM jobs WHERE available=1 AND city_id=" . $cityID . " AND category_id=" . $categoryID);
+$ascending = intval($_POST["ascending"]);
+$ascDescText = "";
+if ($ascending == 0) {
+	$ascDescText = "DESC";
+} else if ($ascending == 1) {
+	$ascDescText = "ASC";
+}
+$sql = "SELECT * FROM jobs WHERE available=1 ORDER BY title " . $ascDescText . " LIMIT " . $start . "," . $length;
+$results = $c->query($sql);
 $jobs = [];
 if ($results && $results->num_rows > 0) {
 	while ($row = $results->fetch_assoc()) {
@@ -18,6 +24,7 @@ if ($results && $results->num_rows > 0) {
 			$employer = $employers->fetch_assoc();
 			$row["employer"] = $employer["full_name"];
 			$row["employer_fcm_id"] = $employer["fcm_id"];
+			$row["employer_verified"] = $employer["verified"];
 		}
 		array_push($jobs, $row);
 	}

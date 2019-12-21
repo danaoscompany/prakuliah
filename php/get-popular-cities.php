@@ -7,7 +7,7 @@ if ($results && $results->num_rows > 0) {
 	while ($row = $results->fetch_assoc()) {
 		$latitude = doubleval($row["latitude"]);
 		$longitude = doubleval($row["longitude"]);
-		$jobs = $c->query("SELECT *, SQRT(POW(69.1 * (latitude - " . $latitude . "), 2) + POW(69.1 * (" . $longitude . " - longitude) * COS(latitude / 57.3), 2)) AS distance FROM jobs HAVING distance < 50 ORDER BY distance");
+		$jobs = $c->query("SELECT * FROM jobs WHERE city_id=" . $row["id"]);
 		if ($jobs) {
 			$row["jobs_count"] = $jobs->num_rows;
 			$totalApplicants = 0;

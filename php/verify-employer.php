@@ -1,6 +1,6 @@
 <?php
 include 'db.php';
 $id = intval($_POST["id"]);
-$sql = "DELETE FROM partners WHERE id=" . $id;
+$sql = "UPDATE employers SET verified=1 WHERE id=" . $id;
 $c->query($sql);
-echo 0;
+echo $sql;

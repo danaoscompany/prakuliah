@@ -7,4 +7,6 @@ if ($role == "user") {
 	$c->query("UPDATE users SET fcm_id='" . $fcmID . "' WHERE id=" . $userID);
 } else if ($role == "employer") {
 	$c->query("UPDATE employers SET fcm_id='" . $fcmID . "' WHERE id=" . $userID);
+} else if ($role == "admin") {
+	$c->query("UPDATE admins SET fcm_id='" . $fcmID . "' WHERE id=" . $userID);
 }

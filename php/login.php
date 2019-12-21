@@ -2,38 +2,38 @@
 include 'db.php';
 $email = $_POST["email"];
 $password = $_POST["password"];
-checkUsers($email, $password);
+checkUsers($c, $email, $password);
 
-function checkUsers($email, $password) {
+function checkUsers($c, $email, $password) {
 	$results = $c->query("SELECT * FROM users WHERE email='" . $email . "'");
 	if ($results && $results->num_rows > 0) {
 	    $row = $results->fetch_assoc();
 	    if ($row["password"] != $password) {
-	    	checkEmployers($email, $password);
+	    	checkEmployers($c, $email, $password);
 	    } else {
 	    	echo 1;
 	    }
 	} else {
-	    checkEmployers($email, $password);
+	    checkEmployers($c, $email, $password);
 	}
 }
 
-function checkEmployers($email, $password) {
+function checkEmployers($c, $email, $password) {
 	$results = $c->query("SELECT * FROM employers WHERE email='" . $email . "'");
 	if ($results && $results->num_rows > 0) {
 	    $row = $results->fetch_assoc();
 	    if ($row["password"] != $password) {
-	        checkPartners($email, $password);
+            checkAdmins($c, $email, $password);
 	    } else {
 	    	echo 2;
 	    }
 	} else {
-	    checkPartners($email, $password);
+        checkAdmins($c, $email, $password);
 	}
 }
 
-function checkPartners($email, $password) {
-	$results = $c->query("SELECT * FROM partners WHERE email='" . $email . "'");
+function checkAdmins($c, $email, $password) {
+	$results = $c->query("SELECT * FROM admins WHERE email='" . $email . "'");
 	if ($results && $results->num_rows > 0) {
 	    $row = $results->fetch_assoc();
 	    if ($row["password"] != $password) {

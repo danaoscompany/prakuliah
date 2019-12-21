@@ -80,10 +80,6 @@ function openUsers() {
     window.location.href = "users.html";
 }
 
-function openPartners() {
-    window.location.href = "partners.html";
-}
-
 function openEmployers() {
     window.location.href = "employers.html";
 }

@@ -2,7 +2,7 @@
 include 'db.php';
 $start = intval($_POST["start"]);
 $length = intval($_POST["length"]);
-$results = $c->query("SELECT * FROM jobs LIMIT " . $start . "," . $length);
+$results = $c->query("SELECT * FROM jobs WHERE available=1 LIMIT " . $start . "," . $length);
 $jobs = [];
 if ($results && $results->num_rows > 0) {
 	while ($row = $results->fetch_assoc()) {
@@ -16,6 +16,7 @@ if ($results && $results->num_rows > 0) {
 			$employer = $employers->fetch_assoc();
 			$row["employer"] = $employer["full_name"];
 			$row["employer_fcm_id"] = $employer["fcm_id"];
+			$row["employer_verified"] = $employer["verified"];
 		}
 		array_push($jobs, $row);
 	}
