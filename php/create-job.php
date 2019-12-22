@@ -19,6 +19,17 @@ $capacity = intval($_POST["capacity"]);
 $minimumAge = intval($_POST["minimum_age"]);
 $features = $_POST["features"];
 $accessToken = $_POST["access_token"];
+// Check if employer has been verified
+$results = $c->query("SELECT * FROM employers WHERE id=" . $employerID);
+if ($results && $results->num_rows > 0) {
+	$row = $results->fetch_assoc();
+	$verified = intval($row["verified"]);
+	if ($verified == 0) {
+		echo -1;
+		return;
+	}
+}
+
 $sql = "INSERT INTO jobs (category_id, title, employer_id, benefits, description, working_hours, other_description, location_name, city_id, gender, salary, salary_month, salary_negotiable, available, start_work_date, end_work_date, capacity, minimum_age, features, date_posted) VALUES (" . $categoryID . ", '" . $title . "', " . $employerID . ", '" . $benefits . "', '" . $description . "', '" . $workingHours . "', '" . $otherDescription . "', '" . $locationName . "', " . $cityID . ", '" . $gender . "', " . $salary . ", " . $salaryMonth . ", " . $salaryNegotiable . ", 3, '" . $startWorkDate . "', '" . $endWorkDate . "', " . $capacity . ", " . $minimumAge . ", '" . $features . "', '" . date('Y:m:d H:i:s') . "')";
 $c->query($sql);
 $jobID = mysqli_insert_id($c);
